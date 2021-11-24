@@ -3,9 +3,11 @@ import {
   ActionType,
   ActionsTransactionState,
   PayloadCharacter,
+  QueryStringsToFindInApi,
 } from "./types";
 
 export const initialState: TransactionalStateStore = {
+  queryStrings: {},
   info: {
     count: 0,
     pages: 0,
@@ -42,11 +44,20 @@ export const reducer = (state: TransactionalStateStore, action: ActionType) => {
       ...state,
       isLoading: false,
     }),
+    [ActionsTransactionState.updateQueryStrings]: ({
+      payload,
+    }: ActionType<QueryStringsToFindInApi>) => ({
+      ...state,
+      queryStrings: {
+        ...state.queryStrings,
+        ...payload
+      },
+    }),
   };
 
   const selectedAction = actionsMapped[action.type];
 
   return (
-    selectedAction ? selectedAction(action) : state
+    selectedAction ? selectedAction(action as unknown as any) : state
   ) as TransactionalStateStore;
 };

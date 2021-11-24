@@ -1,8 +1,9 @@
 export interface TransactionalStateStore {
+  queryStrings?: QueryStringsToFindInApi;
   info: APIInfo;
   data: CharacterData[];
-  isLoading: boolean,
-  hasError: boolean,
+  isLoading: boolean;
+  hasError: boolean;
 }
 
 export enum ActionsTransactionState {
@@ -10,6 +11,7 @@ export enum ActionsTransactionState {
   requestWithFailure = "REQUEST_WITH_FAILURE",
   isLoading = "IS_LOADING",
   isNotLoading = "IS_NOT_LOADING",
+  updateQueryStrings = 'UPDATE_QUERY_STRINGS'
 }
 
 export interface ActionType<PayloadType = any | undefined> {
