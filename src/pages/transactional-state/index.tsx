@@ -1,6 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
-import { useTransactionalState } from '../../services/transactional-state'
+
+import { useTransactionalState } from '~/services/transactional-state'
 
 const TransactionalIndex = () => {
   const { data, isLoading, updateFilters } = useTransactionalState()
