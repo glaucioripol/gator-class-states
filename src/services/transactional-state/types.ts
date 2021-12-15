@@ -38,7 +38,7 @@ interface APIInfo {
   prev: string | null;
 }
 
-interface CharacterData {
+export interface CharacterData {
   id: number;
   name: string;
   status: string;

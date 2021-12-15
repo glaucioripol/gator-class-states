@@ -50,7 +50,7 @@ export const reducer = (state: TransactionalStateStore, action: ActionType) => {
       ...state,
       queryStrings: {
         ...state.queryStrings,
-        ...payload
+        ...payload,
       },
     }),
   };

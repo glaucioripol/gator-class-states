@@ -1,15 +1,31 @@
-import React from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import Head from 'next/head'
-import Image from 'next/image'
 
 import { useTransactionalState } from '~/services/transactional-state'
+import { CardTransactionalState } from '~/components'
 
 const TransactionalIndex = () => {
-  const { data, isLoading, updateFilters } = useTransactionalState()
+  const [searchByName, setSearchByName] = useState('')
+  const { data, info, queryStrings, isLoading, updateFilters } = useTransactionalState()
 
-  if (isLoading) {
-    return <h1>Loading....</h1>
+  useEffect(() => {
+    if (queryStrings?.name) {
+      setSearchByName(queryStrings?.name)
+    }
+  }, [queryStrings?.name])
+
+  const handleSearchByName = (event: FormEvent) => {
+    event.preventDefault()
+    updateFilters('name', searchByName)
   }
+  const handleChangeSearchByName = (event: FormEvent) => {
+    setSearchByName((event.target as HTMLInputElement).value)
+  }
+
+  const getCurrentPage = () => queryStrings?.page ? +queryStrings?.page : 1
+  const paginate = (page: number) => updateFilters('page', page)
+  const handlePreviousPage = () => paginate(getCurrentPage() - 1)
+  const handleNextPage = () => paginate(getCurrentPage() + 1)
 
   return (
     <div>
@@ -17,47 +33,65 @@ const TransactionalIndex = () => {
         <title>Estado transacional</title>
       </Head>
 
-      <div className='transactional-container'>
+      <div className='container'>
 
-        <button onClick={() => updateFilters('status', 'dead')}>status</button>
+        <header className='header'>
+          <h1 className='title is-3'>Transactional State</h1>
 
-        <button onClick={() => updateFilters('name', 'rick')}>name</button>
+          <form className='search-form' onSubmit={handleSearchByName}>
+            <fieldset className="field">
+              <div className={`control is-medium ${isLoading && 'is-loading'}`}>
+                <input
+                  className="input is-info is-medium"
+                  name='searchByName'
+                  placeholder="Search by name"
+                  onChange={handleChangeSearchByName}
+                  value={searchByName}
+                  disabled={isLoading}
+                />
+              </div>
+            </fieldset>
 
-        <header>
-          <h1>Estado transacional</h1>
+            <button
+              className="button is-info is-medium is-outlined"
+              disabled={isLoading}
+              type='submit'
+            >
+              search
+            </button>
+          </form>
         </header>
 
+
         <main className='main'>
-          {data.map(character => (
-            <section key={character.id} className='card'>
-              <figure>
-                <Image
-                  src={character.image}
-                  alt={character.name}
-                  width='244px'
-                  height='244px'
-                />
-              </figure>
-
-              <h2 className='card__person-name'>{character.name}</h2>
-              <p>
-                <span className='card__person-attributes'>Status:</span> {character.status}
-              </p>
-              <p>
-                <span className='card__person-attributes'>Specie:</span> {character.species}
-              </p>
-              <p>
-                <span className='card__person-attributes'>Location:</span> {character.location?.name}
-              </p>
-              <p>
-                <span className='card__person-attributes'>Gender:</span> {character.gender}
-              </p>
-            </section>
-          ))}
-
+          {data.map(character =>
+            <CardTransactionalState
+              key={character.id}
+              character={character}
+            />
+          )}
         </main>
-        <footer></footer>
-      </div>
+
+        <footer>
+          <nav className="pagination is-rounded" role="navigation" aria-label="pagination">
+            <button
+              className="pagination-previous"
+              disabled={!info.prev}
+              onClick={handlePreviousPage}
+            >
+              Previous
+            </button>
+
+            <button
+              className="pagination-next"
+              disabled={!info.next}
+              onClick={handleNextPage}
+            >
+              Next page
+            </button>
+          </nav>
+        </footer>
+      </div >
 
     </div >
   )

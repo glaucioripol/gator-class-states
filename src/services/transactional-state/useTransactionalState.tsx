@@ -49,17 +49,23 @@ export const useTransactionalState = () => {
     getCharacters()
   }, [getCharacters])
 
-  const updateFilters = (key: keyof QueryStringsToFindInApi, value: string) => {
+  const updateFilters = (key: keyof QueryStringsToFindInApi, value: string | number) => {
     dispatch({
       type: ActionsTransactionState.updateQueryStrings,
       payload: { [key]: value }
     })
 
+    const query = {
+      ...state.queryStrings, [key]: value
+    }
+
+    if (key === 'name' && value === '') {
+      delete query.name
+      delete state.queryStrings?.name
+    }
+
     router.push('/transactional-state', {
-      query: {
-        ...state.queryStrings,
-        [key]: value
-      }
+      query: query
     })
   }
 
