@@ -6,6 +6,35 @@
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  font-family: "Rubik", sans-serif;
 }
 
 /* transactional states */
+.transactional-container {
+  background-color: #e6e6e6;
+}
+
+.transactional-container .main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  width: 280px;
+}
+
+.card .card__person-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.card .card__person-attributes {
+  font-weight: bold;
+}

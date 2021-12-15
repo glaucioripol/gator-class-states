@@ -1,5 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
+import Image from 'next/image'
 
 import { useTransactionalState } from '~/services/transactional-state'
 
@@ -16,7 +17,7 @@ const TransactionalIndex = () => {
         <title>Estado transacional</title>
       </Head>
 
-      <div>
+      <div className='transactional-container'>
 
         <button onClick={() => updateFilters('status', 'dead')}>status</button>
 
@@ -25,10 +26,35 @@ const TransactionalIndex = () => {
         <header>
           <h1>Estado transacional</h1>
         </header>
-        <main>
-          <pre>
-            {JSON.stringify(data, null, 2)}
-          </pre>
+
+        <main className='main'>
+          {data.map(character => (
+            <section key={character.id} className='card'>
+              <figure>
+                <Image
+                  src={character.image}
+                  alt={character.name}
+                  width='244px'
+                  height='244px'
+                />
+              </figure>
+
+              <h2 className='card__person-name'>{character.name}</h2>
+              <p>
+                <span className='card__person-attributes'>Status:</span> {character.status}
+              </p>
+              <p>
+                <span className='card__person-attributes'>Specie:</span> {character.species}
+              </p>
+              <p>
+                <span className='card__person-attributes'>Location:</span> {character.location?.name}
+              </p>
+              <p>
+                <span className='card__person-attributes'>Gender:</span> {character.gender}
+              </p>
+            </section>
+          ))}
+
         </main>
         <footer></footer>
       </div>

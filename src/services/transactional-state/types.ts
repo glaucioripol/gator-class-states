@@ -11,7 +11,7 @@ export enum ActionsTransactionState {
   requestWithFailure = "REQUEST_WITH_FAILURE",
   isLoading = "IS_LOADING",
   isNotLoading = "IS_NOT_LOADING",
-  updateQueryStrings = 'UPDATE_QUERY_STRINGS'
+  updateQueryStrings = "UPDATE_QUERY_STRINGS",
 }
 
 export interface ActionType<PayloadType = any | undefined> {
@@ -45,8 +45,8 @@ interface CharacterData {
   species: string;
   type: string;
   gender: string;
-  origin: URLAndName;
-  location: URLAndName;
+  origin?: URLAndName;
+  location?: URLAndName;
   image: string;
   episode: string[];
   url: string;

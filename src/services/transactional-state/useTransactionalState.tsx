@@ -29,11 +29,11 @@ export const useTransactionalState = () => {
       dispatch({ type: ActionsTransactionState.isLoading })
 
       try {
-        const response = await get<PayloadCharacter | {}>(END_POINT, state.queryStrings)
+        const { data } = await get<PayloadCharacter | {}>(END_POINT, state.queryStrings)
 
         dispatch({
           type: ActionsTransactionState.requestWithSuccess,
-          payload: response.data
+          payload: data
         })
 
       } catch {
